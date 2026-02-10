@@ -105,7 +105,7 @@ npm run preview
 
 [首页截图]<table>
     <tr>
-        <td><img src="showpicture/01 (1).png"/></td>
+        <td><img src="showpicture/01 (2).png"/></td>
     </tr>
 </table>
 
@@ -121,18 +121,22 @@ npm run preview
 
 [文档管理截图]<img src="showpicture/01 (4).png"/>
 
-### 成本分析
+### 远程监控
 
-[成本分析]<img src="showpicture/01 (7).png"/>
-### 质量安全
+[远程监控截图]<img src="showpicture/01 (5).png"/>
 
-[质量安全]<img src="showpicture/01 (8).png"/>
+### 用户管理
 
-### 数据可视化-资源使用
+[用户管理截图]<img src="showpicture/01 (6).png"/>
 
-[数据可视化截图]<img src="showpicture/01 (6).png"/>
-### 最近项目
-[最近项目]<img src="showpicture/01(9).png"/>    
+### 系统设置
+
+[系统设置截图]<img src="showpicture/01 (7).png"/>
+
+### 数据可视化
+
+[数据可视化截图]<img src="showpicture/01 (8).png"/> 
+
 ## 核心功能模块
 
 ### 施工进度管理
