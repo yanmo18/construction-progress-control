@@ -244,32 +244,80 @@ onUnmounted(() => {
         <!-- 告警信息 -->
         <el-tab-pane label="告警信息" name="alarm">
           <div class="alarm-list">
-            <el-table :data="alarmList" style="width: 100%" stripe>
-              <el-table-column prop="id" label="ID" width="80"></el-table-column>
-              <el-table-column prop="type" label="告警类型" width="120"></el-table-column>
-              <el-table-column prop="level" label="严重程度" width="100">
+            <div class="alarm-header">
+              <h4 style="margin: 0; font-size: 16px; font-weight: 500;">告警信息管理</h4>
+              <el-button type="info" icon="el-icon-download" size="small">导出告警</el-button>
+            </div>
+            <el-table :data="alarmList" style="width: 100%" stripe class="alarm-table">
+              <el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
+              <el-table-column prop="type" label="告警类型" width="120" align="center">
                 <template #default="scope">
-                  <el-tag :type="scope.row.level === '严重' ? 'danger' : scope.row.level === '警告' ? 'warning' : 'info'">
+                  <div class="alarm-type" :class="scope.row.level === '严重' ? 'critical' : scope.row.level === '警告' ? 'warning' : 'info'">
+                    {{ scope.row.type }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="level" label="严重程度" width="100" align="center">
+                <template #default="scope">
+                  <el-tag :type="scope.row.level === '严重' ? 'danger' : scope.row.level === '警告' ? 'warning' : 'info'" size="small" effect="dark">
                     {{ scope.row.level }}
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column prop="message" label="告警信息" min-width="200"></el-table-column>
-              <el-table-column prop="time" label="发生时间" width="150"></el-table-column>
-              <el-table-column prop="status" label="处理状态" width="100">
+              <el-table-column prop="message" label="告警信息" min-width="300" align="left">
                 <template #default="scope">
-                  <el-tag :type="scope.row.status === '已处理' ? 'success' : 'warning'">
+                  <div class="alarm-message">
+                    {{ scope.row.message }}
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="time" label="发生时间" width="160" align="center"></el-table-column>
+              <el-table-column prop="status" label="处理状态" width="100" align="center">
+                <template #default="scope">
+                  <el-tag :type="scope.row.status === '已处理' ? 'success' : 'warning'" size="small">
                     {{ scope.row.status }}
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" width="100" fixed="right">
+              <el-table-column label="操作" width="140" align="center" fixed="right">
                 <template #default="scope">
-                  <el-button size="small" type="primary" icon="el-icon-check" @click="handleAlarm(scope.row)" v-if="scope.row.status === '未处理'">处理</el-button>
-                  <el-button size="small" type="info" icon="el-icon-view">详情</el-button>
+                  <div class="alarm-actions">
+                    <el-button 
+                      size="mini" 
+                      type="primary" 
+                      icon="el-icon-check" 
+                      @click="handleAlarm(scope.row)" 
+                      v-if="scope.row.status === '未处理'"
+                      class="action-btn"
+                    >
+                      处理
+                    </el-button>
+                    <el-button 
+                      size="mini" 
+                      type="info" 
+                      icon="el-icon-view" 
+                      class="action-btn"
+                    >
+                      详情
+                    </el-button>
+                  </div>
                 </template>
               </el-table-column>
             </el-table>
+            <div class="alarm-stats" v-if="alarmList.length > 0">
+              <div class="stat-item">
+                <span class="stat-label">总告警数：</span>
+                <span class="stat-value">{{ alarmList.length }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">未处理：</span>
+                <span class="stat-value unhandled">{{ alarmList.filter(item => item.status === '未处理').length }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">已处理：</span>
+                <span class="stat-value handled">{{ alarmList.filter(item => item.status === '已处理').length }}</span>
+              </div>
+            </div>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -403,5 +451,144 @@ onUnmounted(() => {
 /* 告警信息样式 */
 .alarm-list {
   width: 100%;
+  padding: 20px 0;
+}
+
+.alarm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.alarm-table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.alarm-table th {
+  background-color: #f5f7fa;
+  font-weight: 600;
+  color: #303133;
+  text-align: center;
+}
+
+.alarm-type {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.alarm-type.critical {
+  background-color: rgba(245, 108, 108, 0.1);
+  color: #f56c6c;
+}
+
+.alarm-type.warning {
+  background-color: rgba(230, 162, 60, 0.1);
+  color: #e6a23c;
+}
+
+.alarm-type.info {
+  background-color: rgba(144, 147, 153, 0.1);
+  color: #909399;
+}
+
+.alarm-message {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #303133;
+}
+
+.alarm-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.action-btn {
+  min-width: 60px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.alarm-stats {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  padding: 16px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #606266;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #303133;
+}
+
+.stat-value.unhandled {
+  color: #f56c6c;
+}
+
+.stat-value.handled {
+  color: #67c23a;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 1200px) {
+  .alarm-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .alarm-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .stat-item {
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .alarm-list {
+    padding: 10px 0;
+  }
+  
+  .alarm-header {
+    padding: 0 10px;
+  }
+  
+  .alarm-actions {
+    flex-direction: column;
+  }
+  
+  .action-btn {
+    width: 100%;
+  }
 }
 </style>
