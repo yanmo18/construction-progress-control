@@ -103,7 +103,11 @@ npm run preview
 
 ### 首页
 
-![首页截图](showpicture/01 (1).png)
+[首页截图]<table>
+    <tr>
+        <td><img src="showpicture/01 (1).png"/></td>
+    </tr>
+</table>
 
 ### 统计分析
 
@@ -172,7 +176,7 @@ MIT License
 
 ## 联系方式
 
-- 项目维护者: 管理员
-- 邮箱: admin@example.com
+- 项目维护者: Seren
+- 邮箱: moyan548@foxmail.com
 - 项目地址: https://github.com/yourusername/construction-progress-control
 
